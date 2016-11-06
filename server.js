@@ -86,7 +86,7 @@ app.get('/api/imagesearch/:query', function(req, res) {
     res.send(image)
   })
 
-  // insertSearch(query, 5)
+  insertSearch(query, 5)
 
 })
 
