@@ -58,7 +58,7 @@ function showJSON(request) {
 
 
 function insertSearch(term, when) {
-  client.connect(dbUrl, {}, function(err, res) {
+  client.connect(dbUrl, {}, function(err, db) {
     if (err) throw err
 
     let search = {
