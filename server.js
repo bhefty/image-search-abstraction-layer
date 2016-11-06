@@ -1,0 +1,85 @@
+'use strict'
+
+const express = require('express')
+const client = require('mongodb').MongoClient
+const app = express()
+
+// DATABASE
+const dbUrl = process.env.MONGOLAB_URI ||
+              'mongodb://localhost:27017/image-search'
+
+console.log('db server: ', dbUrl)
+
+client.connect(dbUrl, {}, function(err, db) {
+  console.log('error: ', err)
+  db.listCollections().toArray(function(err, collections) {
+    console.log('error: ', err)
+    console.log('collecitons: ', collections)
+    db.close()
+  })
+})
+
+
+// BING SEARCH
+const Search = require('bing.search')
+const util = require('util')
+
+// let request = searchImages('cats', 2).then(function (image) {
+//   showJSON(image)
+// })
+
+function searchImages(query, offset) {
+  return new Promise(function(resolve, reject) {
+    let search = new Search(process.env.BING_API)
+
+    search.images(query, { top: 10, skip: offset }, function(err, results) {
+      if (err) throw err
+
+      let img = results.map(function (element) {
+        return constructJSON(element)
+      })
+      // showJSON(img)
+
+      resolve(img)
+    })
+  })
+}
+
+function constructJSON(search) {
+  return {
+    url: search.url,
+    snippet: search.title,
+    thumbnail: search.thumbnail.url,
+    context: search.sourceUrl
+  }
+}
+
+function showJSON(request) {
+  console.log(JSON.stringify(request, null, 2))
+}
+
+
+
+// EXPRESS
+app.get('/api/imagesearch/:query', function(req, res) {
+  let query = req.params.query
+  let offset = req.query.offset
+
+  let request = searchImages(query, offset).then(function (image) {
+    showJSON(image)
+    res.send(image)
+  })
+
+})
+
+app.get('/api/latest/imagesearch', function(req, res) {
+  res.send('latest')
+})
+
+app.get('/', function(req, res) {
+  res.redirect('/api/latest/imagesearch')
+})
+
+app.listen(process.env.PORT || 8080, function() {
+  console.log('Server is listening.')
+})

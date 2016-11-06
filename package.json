@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/bhefty/image-search-abstraction-layer/issues"
   },
-  "homepage": "https://github.com/bhefty/image-search-abstraction-layer#readme"
+  "homepage": "https://github.com/bhefty/image-search-abstraction-layer#readme",
+  "dependencies": {
+    "bing.search": "^1.0.1",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.11"
+  }
 }
