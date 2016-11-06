@@ -20,7 +20,7 @@ client.connect(dbUrl, {}, function(err, db) {
   //   console.log('collecitons: ', collections)
   //   db.close()
   // })
-  collection.find({}).toArray( (err, results) => {
+  collection.find({}).limit(2).toArray( (err, results) => {
     if (err) throw err
     console.log(results)
   })
