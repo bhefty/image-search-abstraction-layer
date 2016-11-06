@@ -5,7 +5,7 @@ const client = require('mongodb').MongoClient
 const app = express()
 
 // DATABASE
-const dbUrl = process.env.MONGOLAB_URI ||
+const dbUrl = process.env.MONGODB_URI ||
               'mongodb://localhost:27017/image-search'
 
 console.log('db server: ', dbUrl)
