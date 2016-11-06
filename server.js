@@ -8,12 +8,13 @@ const app = express()
 const dbUrl = process.env.MONGODB_URI ||
               'mongodb://localhost:27017/image-search'
 
-const collection = db.getCollection('recent-searches')
+
 
 console.log('db server: ', dbUrl)
 
 client.connect(dbUrl, {}, function(err, db) {
   if (err) throw err
+  const collection = db.getCollection('recent-searches')
   // db.listCollections().toArray(function(err, collections) {
   //   if (err) throw err
   //   console.log('collecitons: ', collections)
