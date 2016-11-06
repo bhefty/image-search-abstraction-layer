@@ -8,28 +8,15 @@ const app = express()
 const dbUrl = process.env.MONGODB_URI ||
               'mongodb://localhost:27017/image-search'
 
-
-
-console.log('db server: ', dbUrl)
-
-client.connect(dbUrl, {}, function(err, db) {
-  if (err) throw err
-  let collection = db.collection('recent-searches')
-  // db.listCollections().toArray(function(err, collections) {
-  //   if (err) throw err
-  //   console.log('collecitons: ', collections)
-  //   db.close()
-  // })
-  collection.find({}).limit(2).toArray( (err, results) => {
-    if (err) throw err
-    console.log(results)
-  })
-})
-
-// function insertSearch() {
+// client.connect(dbUrl, {}, function(err, db) {
+//   if (err) throw err
 //
-// }
-
+//   let collection = db.collection('recent-searches')
+//   collection.find({}).limit(10).toArray( (err, results) => {
+//     if (err) throw err
+//     console.log(results)
+//   })
+// })
 
 // BING SEARCH
 const Search = require('bing.search')
@@ -84,7 +71,16 @@ app.get('/api/imagesearch/:query', function(req, res) {
 })
 
 app.get('/api/latest/imagesearch', function(req, res) {
-  res.send('latest')
+  client.connect(dbUrl, {}, function(err, db) {
+    if (err) throw err
+
+    let collection = db.collection('recent-searches')
+    collection.find({}).limit(10).toArray( (err, results) => {
+      if (err) throw err
+      console.log(results)
+      res.send(results)
+    })
+  })
 })
 
 app.get('/', function(req, res) {
