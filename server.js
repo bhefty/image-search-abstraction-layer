@@ -14,7 +14,7 @@ console.log('db server: ', dbUrl)
 
 client.connect(dbUrl, {}, function(err, db) {
   if (err) throw err
-  const collection = db.getCollection('recent-searches')
+  const collection = db.get('recent-searches')
   // db.listCollections().toArray(function(err, collections) {
   //   if (err) throw err
   //   console.log('collecitons: ', collections)
