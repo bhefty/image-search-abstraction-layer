@@ -8,23 +8,10 @@ const app = express()
 const dbUrl = process.env.MONGODB_URI ||
               'mongodb://localhost:27017/image-search'
 
-// client.connect(dbUrl, {}, function(err, db) {
-//   if (err) throw err
-//
-//   let collection = db.collection('recent-searches')
-//   collection.find({}).limit(10).toArray( (err, results) => {
-//     if (err) throw err
-//     console.log(results)
-//   })
-// })
 
 // BING SEARCH
 const Search = require('bing.search')
 const util = require('util')
-
-// let request = searchImages('cats', 2).then(function (image) {
-//   showJSON(image)
-// })
 
 function searchImages(query, offset) {
   return new Promise(function(resolve, reject) {
@@ -36,7 +23,6 @@ function searchImages(query, offset) {
       let img = results.map(function (element) {
         return constructJSON(element)
       })
-      // showJSON(img)
 
       resolve(img)
     })
