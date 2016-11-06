@@ -80,13 +80,14 @@ function insertSearch(term, when) {
 app.get('/api/imagesearch/:query', function(req, res) {
   let query = req.params.query
   let offset = req.query.offset
+  let when = new Date().toLocaleString()
 
   let request = searchImages(query, offset).then(function (image) {
     showJSON(image)
     res.send(image)
   })
 
-  insertSearch(query, 5)
+  insertSearch(query, when)
 
 })
 
