@@ -57,6 +57,23 @@ function showJSON(request) {
 }
 
 
+function insertSearch(term, when) {
+  client.connect(dbUrl, {}, function(req, res) {
+    if (err) throw err
+
+    let search = {
+      "term": term,
+      "when": when
+    }
+    let collection = db.collection('recent-searches')
+    collection.insert(search, {w:1}, (err, result) => {
+      if (err) throw err
+      console.log(result)
+    })
+    db.close()
+  })
+}
+
 
 // EXPRESS
 app.get('/api/imagesearch/:query', function(req, res) {
@@ -67,6 +84,8 @@ app.get('/api/imagesearch/:query', function(req, res) {
     showJSON(image)
     res.send(image)
   })
+
+  insertSearch(query, 5)
 
 })
 
@@ -79,6 +98,7 @@ app.get('/api/latest/imagesearch', function(req, res) {
       if (err) throw err
       console.log(results)
       res.send(results)
+      db.close()
     })
   })
 })
