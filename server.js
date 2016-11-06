@@ -96,7 +96,7 @@ app.get('/api/latest/imagesearch', function(req, res) {
 
     let collection = db.collection('recent-searches')
     collection.find({}, { "_id": 0 })
-              .sort({ $natural: 1 })
+              .sort({ $natural: -1 })
               .limit(10)
               .toArray( (err, results) => {
       if (err) throw err
