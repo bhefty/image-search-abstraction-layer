@@ -69,8 +69,9 @@ function insertSearch(term, when) {
     collection.insert(search, {w:1}, (err, result) => {
       if (err) throw err
       console.log(result)
+      db.close()
     })
-    db.close()
+
   })
 }
 
